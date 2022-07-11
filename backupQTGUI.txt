@@ -1,0 +1,128 @@
+# -*- coding: utf-8 -*-
+
+# Form implementation generated from reading ui file 'test.ui'
+#
+# Created by: PyQt5 UI code generator 5.10.1
+#
+# WARNING! All changes made in this file will be lost!
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+class CheckableComboBox(QtWidgets.QComboBox):
+    def __init__(self):
+        super(CheckableComboBox, self).__init__()
+        self.view().pressed.connect(self.handleItemPressed)
+        self.setModel(QtGui.QStandardItemModel(self))
+
+    def handleItemPressed(self, index):
+        item = self.model().itemFromIndex(index)
+        if item.checkState() == QtCore.Qt.Checked:
+            item.setCheckState(QtCore.Qt.Unchecked)
+        else:
+            item.setCheckState(QtCore.Qt.Checked)
+
+
+class Ui_MainWindow(object):
+    def setupUi(self, MainWindow):
+        MainWindow.setObjectName("MainWindow")
+        MainWindow.resize(800, 600)
+        self.centralwidget = QtWidgets.QWidget(MainWindow)
+        self.centralwidget.setObjectName("centralwidget")
+        self.runScript = QtWidgets.QPushButton(self.centralwidget)
+        self.runScript.setGeometry(QtCore.QRect(540, 340, 191, 51))
+        self.runScript.setStyleSheet("")
+        self.runScript.setObjectName("runScript")
+        self.Reset = QtWidgets.QPushButton(self.centralwidget)
+        self.Reset.setGeometry(QtCore.QRect(540, 410, 191, 31))
+        self.Reset.setStyleSheet("QPushButton {\n"
+"    background-color: red;\n"
+"    border-style: outset;\n"
+"    border-width: 2px;\n"
+"    border-color: beige;\n"
+"}")
+        self.Reset.setObjectName("Reset")
+        self.TimeLabel = QtWidgets.QLabel(self.centralwidget)
+        self.TimeLabel.setGeometry(QtCore.QRect(90, 180, 171, 41))
+        self.TimeLabel.setStyleSheet("QLabel{font-size: 16pt;}")
+        self.TimeLabel.setObjectName("TimeLabel")
+        self.ConfidenceLabel = QtWidgets.QLabel(self.centralwidget)
+        self.ConfidenceLabel.setGeometry(QtCore.QRect(90, 220, 121, 41))
+        self.ConfidenceLabel.setStyleSheet("QLabel{font-size: 16pt;}")
+        self.ConfidenceLabel.setObjectName("ConfidenceLabel")
+        self.IDLabel = QtWidgets.QLabel(self.centralwidget)
+        self.IDLabel.setGeometry(QtCore.QRect(90, 110, 161, 17))
+        self.IDLabel.setStyleSheet("QLabel{font-size: 16pt;}")
+        self.IDLabel.setObjectName("IDLabel")
+        self.PhaseLabel = QtWidgets.QLabel(self.centralwidget)
+        self.PhaseLabel.setGeometry(QtCore.QRect(90, 150, 171, 17))
+        self.PhaseLabel.setStyleSheet("QLabel{font-size: 16pt;}")
+        self.PhaseLabel.setObjectName("PhaseLabel")
+
+        self.phaseItems = QtWidgets.QComboBox(self.centralwidget)
+        self.phaseItems.setGeometry(QtCore.QRect(290, 150, 120, 25))
+        self.phaseItems.setObjectName("phaseItems")
+        phaseItemsList = ["select an option", "unavailable (0)", "dark (1)", "stop-Then-Proceed (2)", "stop-And-Remain (3)", "pre-Movement (4)", "permissive-Movement-Allowed (5)", "protected-Movement-Allowed (6)", "permissive-clearance (7)", "protected-clearance (8)", "caution-Conflicting-Traffic (9)"]
+        self.phaseItems.addItems(phaseItemsList)
+        phaseItemsListDesc = ["a", "b", "", "", "", "", "", "", "", "", "", "", "", "", "", "", "z"]
+
+        self.confidenceItems = QtWidgets.QComboBox(self.centralwidget)
+        self.confidenceItems.setGeometry(QtCore.QRect(290, 230, 120, 25))
+        self.confidenceItems.setObjectName("confidenceItems")
+        confidenceItemsList = ["0 (21%)", "1 (36%)", "2, (47%)", "3 (56%)", "4 (62%)", "5 (68%)", "6 (73%)", "7 (77%)", "8 (81%)", "9 (85%)", "10 (88%)", "11 (91%)", "12 (94%)", "13 (96%)", "14 (98%)", "15 (100%)"]
+        self.confidenceItems.addItems(confidenceItemsList)
+        self.confidenceItems.setCurrentIndex(15)
+        self.IDInput = QtWidgets.QTextEdit(self.centralwidget)
+        self.IDInput.setGeometry(QtCore.QRect(290, 110, 120, 31))
+        self.IDInput.setObjectName("IDInput")
+        self.timeInput = QtWidgets.QTextEdit(self.centralwidget)
+        self.timeInput.setGeometry(QtCore.QRect(290, 190, 120, 31))
+        self.timeInput.setObjectName("timeInput")
+        self.phaseInfoLabel = QtWidgets.QLabel(self.centralwidget)
+        self.phaseInfoLabel.setGeometry(QtCore.QRect(190, 310, 131, 17))
+        self.phaseInfoLabel.setObjectName("phaseInfoLabel")
+        self.phaseInfoChange = QtWidgets.QLabel(self.centralwidget)
+        self.phaseInfoChange.setGeometry(QtCore.QRect(80, 350, 351, 141))
+        self.phaseInfoChange.setStyleSheet("")
+        self.phaseInfoChange.setObjectName("phaseInfoChange")
+        MainWindow.setCentralWidget(self.centralwidget)
+        self.menubar = QtWidgets.QMenuBar(MainWindow)
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 22))
+        self.menubar.setObjectName("menubar")
+        self.menuUI_for_SPaT_Creation = QtWidgets.QMenu(self.menubar)
+        self.menuUI_for_SPaT_Creation.setObjectName("menuUI_for_SPaT_Creation")
+        MainWindow.setMenuBar(self.menubar)
+        self.statusbar = QtWidgets.QStatusBar(MainWindow)
+        self.statusbar.setObjectName("statusbar")
+        MainWindow.setStatusBar(self.statusbar)
+        self.menubar.addAction(self.menuUI_for_SPaT_Creation.menuAction())
+
+        self.retranslateUi(MainWindow)
+        self.Reset.clicked.connect(self.timeInput.clear)
+        #self.Reset.clicked.connect(lambda: self.phaseItems.setCurrentIndex(0))
+        self.Reset.clicked.connect(self.IDInput.clear)
+        self.Reset.clicked.connect(lambda: self.confidenceItems.setCurrentIndex(15))
+
+        self.phaseItems.activated['QString'].connect(self.phaseInfoChange.setText)
+        QtCore.QMetaObject.connectSlotsByName(MainWindow)
+
+    def retranslateUi(self, MainWindow):
+        _translate = QtCore.QCoreApplication.translate
+        MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
+        self.runScript.setText(_translate("MainWindow", "Create SPATs"))
+        self.Reset.setText(_translate("MainWindow", "RESET"))
+        self.TimeLabel.setText(_translate("MainWindow", "Time (in seconds):"))
+        self.ConfidenceLabel.setText(_translate("MainWindow", "Confidence:"))
+        self.IDLabel.setText(_translate("MainWindow", "Intersection ID:"))
+        self.PhaseLabel.setText(_translate("MainWindow", "Phase Selection:"))
+        self.phaseInfoLabel.setText(_translate("MainWindow", "Phase information"))
+        self.phaseInfoChange.setText(_translate("MainWindow", "Select a Phase!"))
+        self.menuUI_for_SPaT_Creation.setTitle(_translate("MainWindow", "UI for SPaT Creation"))
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    w = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(w)
+    w.show()
+    sys.exit(app.exec_())

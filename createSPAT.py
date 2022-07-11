@@ -51,8 +51,16 @@ print(inp_data)
 cls = v2x.MessageFrame
 buf = cls.from_json(inp_data, verbose=False)
 
+
 print("Converted to UPER HEX: ", binascii.hexlify(buf))
-print("\n")
+print("\nwriting to file...")
+
+with open('SPAT.txt', 'wb') as file:
+	file.write(binascii.hexlify(buf))
+	file.write(b'\n')
+	file.write(binascii.hexlify(buf))
+
+file.close()
 
 
 

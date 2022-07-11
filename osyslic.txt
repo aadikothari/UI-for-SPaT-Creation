@@ -1,0 +1,16 @@
+# Objective Systems products license file.
+#
+# This file must be present in one of the following directories on your
+# PC or server:
+#
+# 1. In a directory pointed to by the OSLICDIR environment variable
+# 2. In the directory in which product executable file is installed
+# 3. In any directory within your PATH
+#
+Product: V2XDLL
+Version: 0.0-1.0
+Expiration: Fri Jul 29 00:45:02 2022
+Key:
+0cb8697a8bd136b152600296d1953d83675ecfbe89a3e96e2c35f51517cd7233
+b48971f058d8b022abdc8ae22e743d1c16695052fe975137b52c038bd06d20b5
+
