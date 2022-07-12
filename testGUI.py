@@ -506,3 +506,32 @@ if __name__ == "__main__":
     ui.setupUi(w)
     w.show()
     sys.exit(app.exec_())
+
+    '''
+
+# Main Method
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    w = QtWidgets.QMainWindow()
+    ui = Ui_UIWindowSPaTGenerator()
+    ui.setupUi(w)
+    w.show()
+    sys.exit(app.exec_())
+
+        self.retranslateUi(UIWindowSPaTGenerator)
+        self.confidenceItem1.setCurrentIndex(15)
+        self.confidenceItem2.setCurrentIndex(15)
+        self.confidenceItem3.setCurrentIndex(15)
+        self.clearFieldsButton.clicked.connect(lambda: self.confidenceItem1.setCurrentIndex(15))
+        self.clearFieldsButton.clicked.connect(lambda: self.confidenceItem2.setCurrentIndex(15))
+        self.clearFieldsButton.clicked.connect(lambda: self.confidenceItem3.setCurrentIndex(15))
+        self.clearFieldsButton.clicked.connect(lambda: self.confidenceItem4.setCurrentIndex(0))
+        self.clearFieldsButton.clicked.connect(lambda: self.confidenceItem5.setCurrentIndex(0))
+        self.clearFieldsButton.clicked.connect(lambda: self.phaseItem1.setCurrentIndex(0))
+        self.clearFieldsButton.clicked.connect(lambda: self.phaseItem2.setCurrentIndex(0))
+        self.clearFieldsButton.clicked.connect(lambda: self.phaseItem3.setCurrentIndex(0))
+        self.clearFieldsButton.clicked.connect(lambda: self.phaseItem4.setCurrentIndex(0))
+        self.clearFieldsButton.clicked.connect(lambda: self.phaseItem5.setCurrentIndex(0))
+
+'''
