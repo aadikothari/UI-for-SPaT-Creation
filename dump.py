@@ -7,14 +7,12 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
-from PyQt5.QtWidgets import QFileDialog
 
 class Ui_UIWindowSPaTGenerator(object):
     def setupUi(self, UIWindowSPaTGenerator):
         UIWindowSPaTGenerator.setObjectName("UIWindowSPaTGenerator")
-        UIWindowSPaTGenerator.resize(853, 636)
+        UIWindowSPaTGenerator.resize(853, 668)
         UIWindowSPaTGenerator.setInputMethodHints(QtCore.Qt.ImhNone)
-        self.intInputValidation = QtGui.QIntValidator()
         self.centralwidget = QtWidgets.QWidget(UIWindowSPaTGenerator)
         self.centralwidget.setObjectName("centralwidget")
         self.TimeLabel = QtWidgets.QLabel(self.centralwidget)
@@ -35,7 +33,7 @@ class Ui_UIWindowSPaTGenerator(object):
         self.phaseInfoLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.phaseInfoLabel.setObjectName("phaseInfoLabel")
         self.phaseInfoChange = QtWidgets.QLabel(self.centralwidget)
-        self.phaseInfoChange.setGeometry(QtCore.QRect(579, 259, 251, 120))
+        self.phaseInfoChange.setGeometry(QtCore.QRect(579, 270, 251, 111))
         self.phaseInfoChange.setStyleSheet("font: 11pt \"Ubuntu\";")
         self.phaseInfoChange.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.phaseInfoChange.setObjectName("phaseInfoChange")
@@ -325,11 +323,21 @@ class Ui_UIWindowSPaTGenerator(object):
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
+        self.frame_3 = QtWidgets.QFrame(self.centralwidget)
+        self.frame_3.setGeometry(QtCore.QRect(260, 570, 331, 31))
+        self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_3.setObjectName("frame_3")
+        self.label_6 = QtWidgets.QLabel(self.frame_3)
+        self.label_6.setGeometry(QtCore.QRect(140, 0, 67, 30))
+        self.label_6.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_6.setObjectName("label_6")
         UIWindowSPaTGenerator.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(UIWindowSPaTGenerator)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 853, 22))
         self.menubar.setObjectName("menubar")
         self.menuUI_for_SPaT_Creation = QtWidgets.QMenu(self.menubar)
+        self.menuUI_for_SPaT_Creation.setTitle("")
         self.menuUI_for_SPaT_Creation.setObjectName("menuUI_for_SPaT_Creation")
         UIWindowSPaTGenerator.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(UIWindowSPaTGenerator)
@@ -338,30 +346,20 @@ class Ui_UIWindowSPaTGenerator(object):
         self.menuUI_for_SPaT_Creation.addSeparator()
         self.menubar.addAction(self.menuUI_for_SPaT_Creation.menuAction())
 
-        self.intersectionIDInput.setValidator(self.intInputValidation)
-        self.signalGroupIDInput.setValidator(self.intInputValidation)
-        self.rsuPortInput.setValidator(self.intInputValidation)
-        self.lineEdit_6.setValidator(self.intInputValidation)
-        self.lineEdit_7.setValidator(self.intInputValidation)
-        self.lineEdit_8.setValidator(self.intInputValidation)
-        self.lineEdit_9.setValidator(self.intInputValidation)
-        self.lineEdit_10.setValidator(self.intInputValidation)
-        self.rsuPortInput.setText("1516")
-
         self.retranslateUi(UIWindowSPaTGenerator)
         self.confidenceItem1.setCurrentIndex(15)
         self.confidenceItem2.setCurrentIndex(15)
         self.confidenceItem3.setCurrentIndex(15)
-        self.clearFieldsButton.clicked.connect(lambda: self.confidenceItem1.setCurrentIndex(15))
-        self.clearFieldsButton.clicked.connect(lambda: self.confidenceItem2.setCurrentIndex(15))
-        self.clearFieldsButton.clicked.connect(lambda: self.confidenceItem3.setCurrentIndex(15))
-        self.clearFieldsButton.clicked.connect(lambda: self.confidenceItem4.setCurrentIndex(0))
-        self.clearFieldsButton.clicked.connect(lambda: self.confidenceItem5.setCurrentIndex(0))
-        self.clearFieldsButton.clicked.connect(lambda: self.phaseItem1.setCurrentIndex(0))
-        self.clearFieldsButton.clicked.connect(lambda: self.phaseItem2.setCurrentIndex(0))
-        self.clearFieldsButton.clicked.connect(lambda: self.phaseItem3.setCurrentIndex(0))
-        self.clearFieldsButton.clicked.connect(lambda: self.phaseItem4.setCurrentIndex(0))
-        self.clearFieldsButton.clicked.connect(lambda: self.phaseItem5.setCurrentIndex(0))
+        self.clearFieldsButton.clicked.connect(self.confidenceItem1.clear)
+        self.clearFieldsButton.clicked.connect(self.confidenceItem2.clear)
+        self.clearFieldsButton.clicked.connect(self.confidenceItem3.clear)
+        self.clearFieldsButton.clicked.connect(self.confidenceItem4.clear)
+        self.clearFieldsButton.clicked.connect(self.confidenceItem5.clear)
+        self.clearFieldsButton.clicked.connect(self.phaseItem1.clear)
+        self.clearFieldsButton.clicked.connect(self.phaseItem2.clear)
+        self.clearFieldsButton.clicked.connect(self.phaseItem3.clear)
+        self.clearFieldsButton.clicked.connect(self.phaseItem4.clear)
+        self.clearFieldsButton.clicked.connect(self.phaseItem5.clear)
         self.clearFieldsButton.clicked.connect(self.lineEdit_6.clear)
         self.clearFieldsButton.clicked.connect(self.lineEdit_7.clear)
         self.clearFieldsButton.clicked.connect(self.lineEdit_8.clear)
@@ -370,47 +368,9 @@ class Ui_UIWindowSPaTGenerator(object):
         self.clearFieldsButton.clicked.connect(self.filenameInput.clear)
         self.clearFieldsButton.clicked.connect(self.signalGroupIDInput.clear)
         self.clearFieldsButton.clicked.connect(self.intersectionIDInput.clear)
-        self.phaseItem1.activated.connect(self.onClicked)
-        self.phaseItem2.activated.connect(self.onClicked)
-        self.phaseItem3.activated.connect(self.onClicked)
-        self.clearFieldsButton.clicked.connect(lambda: self.phaseInfoChange.setText("(Select a Phase!)"))
+        self.phaseItem1.activated['QString'].connect(self.phaseInfoChange.setText)
         self.createSPaTButton.clicked.connect(self.statusInfoChange.update)
-        self.selectSPaTsButton.clicked.connect(self.browseFiles)
         QtCore.QMetaObject.connectSlotsByName(UIWindowSPaTGenerator)
-
-    def onClicked(self, item):
-        if(item == 0):
-            self.phaseInfoChange.setText("set description here0")
-
-        elif(item == 1):
-            self.phaseInfoChange.setText("set description here1")
-
-        elif(item == 2):
-            self.phaseInfoChange.setText("set description here2")
-
-        elif(item == 3):
-            self.phaseInfoChange.setText("-- e.g. called 'red light' in US\n-- Driver Action:\n- Stop vehicle at stop line.\n- Do not proceed.\n-- Note that the right to proceed either right or left when\nit is safe may be contained in the\nlane description to handle what is called a 'right on red'")
-    
-        elif(item == 4):
-            self.phaseInfoChange.setText("set description here4")
-
-        elif(item == 5):
-            self.phaseInfoChange.setText("set description here5")
-
-        elif(item == 6):
-            self.phaseInfoChange.setText("set description here6")
-
-        elif(item == 7):
-            self.phaseInfoChange.setText("set description here7")
-
-        elif(item == 8):
-            self.phaseInfoChange.setText("set description here8")
-
-        elif(item == 9):
-            self.phaseInfoChange.setText("set description here9")
-
-    def browseFiles(self):
-        fname = QFileDialog.getOpenFileName()
 
     def retranslateUi(self, UIWindowSPaTGenerator):
         _translate = QtCore.QCoreApplication.translate
@@ -562,18 +522,10 @@ class Ui_UIWindowSPaTGenerator(object):
         self.createSPaTButton.setText(_translate("UIWindowSPaTGenerator", "Create SPaTs"))
         self.clearFieldsButton.setText(_translate("UIWindowSPaTGenerator", "Clear Fields"))
         self.transmitSPaTsButton.setText(_translate("UIWindowSPaTGenerator", "Transmit SPaTs"))
+        self.rsuPortInput.setPlaceholderText(_translate("UIWindowSPaTGenerator", "1516"))
         self.IDLabel_2.setText(_translate("UIWindowSPaTGenerator", "RSU IP:"))
         self.label_8.setText(_translate("UIWindowSPaTGenerator", "RSU Port:"))
         self.label_4.setText(_translate("UIWindowSPaTGenerator", "Status:"))
         self.statusInfoChange.setText(_translate("UIWindowSPaTGenerator", "..."))
-        self.menuUI_for_SPaT_Creation.setTitle(_translate("UIWindowSPaTGenerator", " "))
+        self.label_6.setText(_translate("UIWindowSPaTGenerator", "Status"))
 
-# Main Method
-if __name__ == "__main__":
-    import sys
-    app = QtWidgets.QApplication(sys.argv)
-    w = QtWidgets.QMainWindow()
-    ui = Ui_UIWindowSPaTGenerator()
-    ui.setupUi(w)
-    w.show()
-    sys.exit(app.exec_())

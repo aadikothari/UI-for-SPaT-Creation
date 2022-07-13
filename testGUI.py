@@ -6,13 +6,17 @@
 #
 # WARNING! All changes made in this file will be lost!
 
+import os
+import subprocess
+import signal
+
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 
 class Ui_UIWindowSPaTGenerator(object):
     def setupUi(self, UIWindowSPaTGenerator):
         UIWindowSPaTGenerator.setObjectName("UIWindowSPaTGenerator")
-        UIWindowSPaTGenerator.resize(853, 636)
+        UIWindowSPaTGenerator.resize(853, 668)
         UIWindowSPaTGenerator.setInputMethodHints(QtCore.Qt.ImhNone)
         self.intInputValidation = QtGui.QIntValidator()
         self.centralwidget = QtWidgets.QWidget(UIWindowSPaTGenerator)
@@ -325,6 +329,15 @@ class Ui_UIWindowSPaTGenerator(object):
         self.frame_2.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_2.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_2.setObjectName("frame_2")
+        self.frame_3 = QtWidgets.QFrame(self.centralwidget)
+        self.frame_3.setGeometry(QtCore.QRect(170, 570, 521, 31))
+        self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
+        self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.frame_3.setObjectName("frame_3")
+        self.label_6 = QtWidgets.QLabel(self.frame_3)
+        self.label_6.setGeometry(QtCore.QRect(6, 0, 511, 30))
+        self.label_6.setAlignment(QtCore.Qt.AlignCenter)
+        self.label_6.setObjectName("label_6")
         UIWindowSPaTGenerator.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(UIWindowSPaTGenerator)
         self.menubar.setGeometry(QtCore.QRect(0, 0, 853, 22))
@@ -376,6 +389,7 @@ class Ui_UIWindowSPaTGenerator(object):
         self.clearFieldsButton.clicked.connect(lambda: self.phaseInfoChange.setText("(Select a Phase!)"))
         self.createSPaTButton.clicked.connect(self.statusInfoChange.update)
         self.selectSPaTsButton.clicked.connect(self.browseFiles)
+        self.transmitSPaTsButton.clicked.connect(self.runTransmitScript)
         QtCore.QMetaObject.connectSlotsByName(UIWindowSPaTGenerator)
 
     def onClicked(self, item):
@@ -410,7 +424,27 @@ class Ui_UIWindowSPaTGenerator(object):
             self.phaseInfoChange.setText("set description here9")
 
     def browseFiles(self):
-        fname = QFileDialog.getOpenFileName()
+        filename = QFileDialog.getOpenFileName()
+        self.label_6.setText("Selected File: %s" %(filename[0]))
+
+    def runTransmitScript(self):
+        print("run script here")
+        filename = self.label_6.text().replace("Selected File: ","")
+        ipPort = self.rsuIPInput.text() + ':' + self.rsuPortInput.text()
+        #self.transmitSPaTsButton.setText("Stop Transmitting")
+        p = subprocess.Popen(['python3', 'transmitSPAT.py', self.label_6.text().replace("Selected File: ","") , ipPort])
+        self.label_6.setText("Transmitting SPaTs from %s" %(filename))
+        # if(self.transmitSPaTsButton.clicked()):
+        #     os.killpg(os.getpgid(subProcess.pid), signal.SIGTERM)
+
+        # try:
+        # command = 'python3 transmitSPAT.py ' + self.label_6.text().replace("Selected File: ","") + ' ' + self.rsuIPInput.text() + ':' + self.rsuPortInput.text() 
+        # print(command)
+        # self.label_6.setText("Transmitting SPaTs to %s:%s" %(self.rsuIPInput.text(), self.rsuPortInput.text()))
+        # print("go here?")
+        # os.system(command)
+        # except:
+        # self.label_6.setText("There was an error")
 
     def retranslateUi(self, UIWindowSPaTGenerator):
         _translate = QtCore.QCoreApplication.translate
@@ -565,6 +599,7 @@ class Ui_UIWindowSPaTGenerator(object):
         self.IDLabel_2.setText(_translate("UIWindowSPaTGenerator", "RSU IP:"))
         self.label_8.setText(_translate("UIWindowSPaTGenerator", "RSU Port:"))
         self.label_4.setText(_translate("UIWindowSPaTGenerator", "Status:"))
+        self.label_6.setText(_translate("UIWindowSPaTGenerator", "Status"))
         self.statusInfoChange.setText(_translate("UIWindowSPaTGenerator", "..."))
         self.menuUI_for_SPaT_Creation.setTitle(_translate("UIWindowSPaTGenerator", " "))
 
