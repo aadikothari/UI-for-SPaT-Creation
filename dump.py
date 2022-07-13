@@ -7,6 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt5 import QtCore, QtGui, QtWidgets
+from PyQt5.QtWidgets import QFileDialog
 
 class Ui_UIWindowSPaTGenerator(object):
     def setupUi(self, UIWindowSPaTGenerator):
@@ -34,7 +35,7 @@ class Ui_UIWindowSPaTGenerator(object):
         self.phaseInfoLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.phaseInfoLabel.setObjectName("phaseInfoLabel")
         self.phaseInfoChange = QtWidgets.QLabel(self.centralwidget)
-        self.phaseInfoChange.setGeometry(QtCore.QRect(579, 270, 251, 111))
+        self.phaseInfoChange.setGeometry(QtCore.QRect(579, 259, 251, 120))
         self.phaseInfoChange.setStyleSheet("font: 11pt \"Ubuntu\";")
         self.phaseInfoChange.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.phaseInfoChange.setObjectName("phaseInfoChange")
@@ -374,6 +375,7 @@ class Ui_UIWindowSPaTGenerator(object):
         self.phaseItem3.activated.connect(self.onClicked)
         self.clearFieldsButton.clicked.connect(lambda: self.phaseInfoChange.setText("(Select a Phase!)"))
         self.createSPaTButton.clicked.connect(self.statusInfoChange.update)
+        self.selectSPaTsButton.clicked.connect(self.browseFiles)
         QtCore.QMetaObject.connectSlotsByName(UIWindowSPaTGenerator)
 
     def onClicked(self, item):
@@ -406,6 +408,9 @@ class Ui_UIWindowSPaTGenerator(object):
 
         elif(item == 9):
             self.phaseInfoChange.setText("set description here9")
+
+    def browseFiles(self):
+        fname = QFileDialog.getOpenFileName()
 
     def retranslateUi(self, UIWindowSPaTGenerator):
         _translate = QtCore.QCoreApplication.translate
