@@ -9,6 +9,7 @@
 import os
 import subprocess
 import signal
+import time
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
@@ -276,6 +277,10 @@ class Ui_UIWindowSPaTGenerator(object):
         self.clearFieldsButton.setGeometry(QtCore.QRect(510, 130, 111, 25))
         self.clearFieldsButton.setStyleSheet("font: 11pt \"Ubuntu\";")
         self.clearFieldsButton.setObjectName("clearFieldsButton")
+        self.stopTransmitButton = QtWidgets.QPushButton(self.centralwidget)
+        self.stopTransmitButton.setGeometry(QtCore.QRect(440, 530, 380, 25))
+        self.stopTransmitButton.setStyleSheet("font: 11pt \"Ubuntu\";")
+        self.stopTransmitButton.setObjectName("stopTransmitButton")
         self.transmitSPaTsButton = QtWidgets.QPushButton(self.centralwidget)
         self.transmitSPaTsButton.setGeometry(QtCore.QRect(440, 530, 380, 25))
         self.transmitSPaTsButton.setStyleSheet("font: 11pt \"Ubuntu\";")
@@ -423,26 +428,25 @@ class Ui_UIWindowSPaTGenerator(object):
         self.label_6.setText("Selected File: %s" %(filename[0]))
 
     def stopTransmitScript(self, p):
-        print("hi")
-        #os.killpg(os.getpgid(p.pid), signal.SIGTERM)
         p.kill()
-        self.label_6.setText("Status")
-        self.transmitSPaTsButton.setText("Transmit SPaTs")
-        self.transmitSPaTsButton.clicked.connect(self.runTransmitScript)
+        self.label_6.setText("Transmission was STOPPED")
+        self.transmitSPaTsButton.show()
 
 
     def runTransmitScript(self):
         filename = self.label_6.text()
-        if filename == "Status" or filename == "SELECT A FILE !!":
+        if filename == "Status" or filename == "SELECT A FILE !!" or filename == "Transmission was STOPPED":
             self.label_6.setText("SELECT A FILE !!")
 
         else:
             filename = self.label_6.text().replace("Selected File: ","")
             ipPort = self.rsuIPInput.text() + ':' + self.rsuPortInput.text()
             p = subprocess.Popen(['python3', 'transmitSPAT.py', self.label_6.text().replace("Selected File: ","") , ipPort])
-            self.transmitSPaTsButton.setText("Stop Transmitting")
+            #self.transmitSPaTsButton.setText("Stop Transmitting")
             self.label_6.setText("Transmitting SPaTs from %s" %(filename))
-            self.transmitSPaTsButton.clicked.connect(lambda: self.stopTransmitScript(p))
+            self.transmitSPaTsButton.hide()
+            
+            self.stopTransmitButton.clicked.connect(lambda: self.stopTransmitScript(p))
             
         # if(self.transmitSPaTsButton.clicked()):
         #     os.killpg(os.getpgid(subProcess.pid), signal.SIGTERM)
@@ -604,6 +608,7 @@ class Ui_UIWindowSPaTGenerator(object):
         self.confidenceItem5.setItemText(16, _translate("UIWindowSPaTGenerator", "15 (100%)"))
         self.createSPaTButton.setText(_translate("UIWindowSPaTGenerator", "Create SPaTs"))
         self.clearFieldsButton.setText(_translate("UIWindowSPaTGenerator", "Clear Fields"))
+        self.stopTransmitButton.setText(_translate("UIWindowSPaTGenerator", "Stop Transmission"))
         self.transmitSPaTsButton.setText(_translate("UIWindowSPaTGenerator", "Transmit SPaTs"))
         self.IDLabel_2.setText(_translate("UIWindowSPaTGenerator", "RSU IP:"))
         self.label_8.setText(_translate("UIWindowSPaTGenerator", "RSU Port:"))
