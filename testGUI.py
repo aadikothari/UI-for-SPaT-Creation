@@ -39,15 +39,10 @@ class Ui_UIWindowSPaTGenerator(object):
         self.phaseInfoLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.phaseInfoLabel.setObjectName("phaseInfoLabel")
         self.phaseInfoChange = QtWidgets.QLabel(self.centralwidget)
-        self.phaseInfoChange.setGeometry(QtCore.QRect(579, 259, 251, 120))
+        self.phaseInfoChange.setGeometry(QtCore.QRect(565, 238, 272, 140))
         self.phaseInfoChange.setStyleSheet("font: 11pt \"Ubuntu\";")
         self.phaseInfoChange.setAlignment(QtCore.Qt.AlignHCenter|QtCore.Qt.AlignTop)
         self.phaseInfoChange.setObjectName("phaseInfoChange")
-        self.label = QtWidgets.QLabel(self.centralwidget)
-        self.label.setGeometry(QtCore.QRect(590, 230, 230, 31))
-        self.label.setStyleSheet("font: 11pt \"Ubuntu\";")
-        self.label.setAlignment(QtCore.Qt.AlignCenter)
-        self.label.setObjectName("label")
         self.label_2 = QtWidgets.QLabel(self.centralwidget)
         self.label_2.setGeometry(QtCore.QRect(30, 160, 51, 30))
         font = QtGui.QFont()
@@ -394,46 +389,61 @@ class Ui_UIWindowSPaTGenerator(object):
 
     def onClicked(self, item):
         if(item == 0):
-            self.phaseInfoChange.setText("set description here0")
+            self.phaseInfoChange.setText("-- This state is used for\nunknown or error")
 
         elif(item == 1):
-            self.phaseInfoChange.setText("set description here1")
+            self.phaseInfoChange.setText("-- The signal head is dark (unlit)")
 
         elif(item == 2):
-            self.phaseInfoChange.setText("set description here2")
+            self.phaseInfoChange.setText("-- Often called ‘flashing red’ in US\n-- Driver Action:\n-- Stop vehicle at stop line.\n-- Do not proceed unless it is safe.\n-- Note that the right to proceed either\nright or left when -- it is safe may be\ncontained in the lane description to \n-- handle what is called a ‘right on red’")
 
         elif(item == 3):
-            self.phaseInfoChange.setText("-- e.g. called 'red light' in US\n-- Driver Action:\n- Stop vehicle at stop line.\n- Do not proceed.\n-- Note that the right to proceed either right or left when\nit is safe may be contained in the\nlane description to handle what is called a 'right on red'")
+            self.phaseInfoChange.setText("-- e.g. called 'red light' in US\n-- Driver Action:\n- Stop vehicle at stop line.\n- Do not proceed.\n-- Note that the right to proceed either right or left when\nit is safe may be contained in the\nlane description to handle what is called\na 'right on red'")
     
         elif(item == 4):
-            self.phaseInfoChange.setText("set description here4")
+            self.phaseInfoChange.setText("-- Not used in the US\nred+yellow partly in EU\n\n-- Driver Action:\n-- Stop vehicle.\n-- Prepare to proceed (pending green)\n-- (Prepare for transition to green/go)")
 
         elif(item == 5):
-            self.phaseInfoChange.setText("set description here5")
+            self.phaseInfoChange.setText("-- Often called ‘permissive green’ in US\n\n-- Driver Action:\n-- Proceed with caution, \n-- must yield to all conflicting traffic \n-- Conflicting traffic may be present\n-- in the intersection conflict area")
 
         elif(item == 6):
-            self.phaseInfoChange.setText("set description here6")
+            self.phaseInfoChange.setText("-- Often called ‘protected green’ in US\n\n-- Driver Action:\n-- Proceed, tossing caution to the wind,\n-- in indicated (allowed) direction.")
 
         elif(item == 7):
-            self.phaseInfoChange.setText("set description here7")
+            self.phaseInfoChange.setText("-- Often called ‘permissive yellow’ in US\n\n-- Driver Action: \n-- Prepare to stop.\n-- Proceed if unable to stop,\n-- Clear Intersection.\n-- Conflicting traffic may be present\n-- in the intersection conflict area")
 
         elif(item == 8):
-            self.phaseInfoChange.setText("set description here8")
+            self.phaseInfoChange.setText("-- Often called ‘protected yellow’ in US\n\n-- Driver Action:\n-- Prepare to stop.\n-- Proceed if unable to stop,\n-- in indicated direction (to connected lane)\n-- Clear Intersection.")
 
         elif(item == 9):
-            self.phaseInfoChange.setText("set description here9")
+            self.phaseInfoChange.setText("-- Often called ‘flashing yellow’ in US\n-- Often used for extended periods of time\n\n-- Driver Action: \n-- Proceed with caution, \n-- Conflicting traffic may be present\n-- in the intersection conflict area")
 
     def browseFiles(self):
         filename = QFileDialog.getOpenFileName()
         self.label_6.setText("Selected File: %s" %(filename[0]))
 
+    def stopTransmitScript(self, p):
+        print("hi")
+        #os.killpg(os.getpgid(p.pid), signal.SIGTERM)
+        p.kill()
+        self.label_6.setText("Status")
+        self.transmitSPaTsButton.setText("Transmit SPaTs")
+        self.transmitSPaTsButton.clicked.connect(self.runTransmitScript)
+
+
     def runTransmitScript(self):
-        print("run script here")
-        filename = self.label_6.text().replace("Selected File: ","")
-        ipPort = self.rsuIPInput.text() + ':' + self.rsuPortInput.text()
-        #self.transmitSPaTsButton.setText("Stop Transmitting")
-        p = subprocess.Popen(['python3', 'transmitSPAT.py', self.label_6.text().replace("Selected File: ","") , ipPort])
-        self.label_6.setText("Transmitting SPaTs from %s" %(filename))
+        filename = self.label_6.text()
+        if filename == "Status" or filename == "SELECT A FILE !!":
+            self.label_6.setText("SELECT A FILE !!")
+
+        else:
+            filename = self.label_6.text().replace("Selected File: ","")
+            ipPort = self.rsuIPInput.text() + ':' + self.rsuPortInput.text()
+            p = subprocess.Popen(['python3', 'transmitSPAT.py', self.label_6.text().replace("Selected File: ","") , ipPort])
+            self.transmitSPaTsButton.setText("Stop Transmitting")
+            self.label_6.setText("Transmitting SPaTs from %s" %(filename))
+            self.transmitSPaTsButton.clicked.connect(lambda: self.stopTransmitScript(p))
+            
         # if(self.transmitSPaTsButton.clicked()):
         #     os.killpg(os.getpgid(subProcess.pid), signal.SIGTERM)
 
@@ -454,7 +464,6 @@ class Ui_UIWindowSPaTGenerator(object):
         self.IDLabel.setText(_translate("UIWindowSPaTGenerator", "Intersection ID:"))
         self.phaseInfoLabel.setText(_translate("UIWindowSPaTGenerator", "Phase information"))
         self.phaseInfoChange.setText(_translate("UIWindowSPaTGenerator", "(Select a Phase!)"))
-        self.label.setText(_translate("UIWindowSPaTGenerator", "Select a phase to learn more!"))
         self.label_2.setText(_translate("UIWindowSPaTGenerator", "Phase:"))
         self.label_3.setText(_translate("UIWindowSPaTGenerator", "Signal Group ID:"))
         self.label_5.setText(_translate("UIWindowSPaTGenerator", "Save SPaT as:"))
