@@ -441,24 +441,12 @@ class Ui_UIWindowSPaTGenerator(object):
         else:
             filename = self.label_6.text().replace("Selected File: ","")
             ipPort = self.rsuIPInput.text() + ':' + self.rsuPortInput.text()
-            p = subprocess.Popen(['python3', 'transmitSPAT.py', self.label_6.text().replace("Selected File: ","") , ipPort])
-            #self.transmitSPaTsButton.setText("Stop Transmitting")
+            ###### CHANGE THE MAP FILE OPTION
+            p = subprocess.Popen(['python3', 'transmitSPAT.py', self.label_6.text().replace("Selected File: ","") , '/home/duser/aadiCreateSPaT/MAP.txt', ipPort])
             self.label_6.setText("Transmitting SPaTs from %s" %(filename))
             self.transmitSPaTsButton.hide()
             
             self.stopTransmitButton.clicked.connect(lambda: self.stopTransmitScript(p))
-            
-        # if(self.transmitSPaTsButton.clicked()):
-        #     os.killpg(os.getpgid(subProcess.pid), signal.SIGTERM)
-
-        # try:
-        # command = 'python3 transmitSPAT.py ' + self.label_6.text().replace("Selected File: ","") + ' ' + self.rsuIPInput.text() + ':' + self.rsuPortInput.text() 
-        # print(command)
-        # self.label_6.setText("Transmitting SPaTs to %s:%s" %(self.rsuIPInput.text(), self.rsuPortInput.text()))
-        # print("go here?")
-        # os.system(command)
-        # except:
-        # self.label_6.setText("There was an error")
 
     def retranslateUi(self, UIWindowSPaTGenerator):
         _translate = QtCore.QCoreApplication.translate
