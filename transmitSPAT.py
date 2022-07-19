@@ -41,12 +41,11 @@ for l in lines:
 	sock.sendto(sendWordSPAT.encode(), (ip, int(port)))
 	
 	# print("Sent:\n", sendWordMAP)
-	# print("Sent:\n", sendWordSPAT)
-	print("sending..")
+	print("Sent:\n", sendWordSPAT)
 
 print("\nClearing the terminal...")
-#time.sleep(1.5)
-# os.system("clear")
+time.sleep(1.5)
+os.system("clear")
 # send some signal here maybe
 # signal.signal(signal.SIGTERM)
 sock.close()	

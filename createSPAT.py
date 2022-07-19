@@ -20,52 +20,21 @@ import xdrlib
 # file present in the environment
 from osys import v2x
 
-
-"""CHANGE THESE ARGUMENTs"""
-# first, second, third, fourth = sys.argv[1].split(":")
-
-# time = first
-
-# if second == 'R' or second == 'r':
-# 	state = 3
-# elif second == 'G' or second == 'g':
-# 	state = 6
-# elif second == 'Y' or second == 'y':
-# 	state = 8
-# else:
-# 	raise ValueError("Incorrect State Entered")
-
-# id = third
-# confidence = fourth
-
-# print(time)
-# print(state)
-# print(id)
-# print(confidence)
-
-# python3 createSPAT.py intersecID signGrpID [tuple1] [tuple2] [tuple3]
-# where tuple = phase, time, confidence
-
 intersectionID = sys.argv[1]
 signalGroupID = sys.argv[2]
 filename = sys.argv[3]
 phaseOne, timeOne, confidenceOne = sys.argv[4].split(",")
-# pairTwo = list(sys.argv[5])
-# pairThree = list(sys.argv[6])
-# pairFour = list(sys.argv[7])
-# pairFive = list(sys.argv[8])
+phaseTwo, timeTwo, confidenceTwo = sys.argv[5].split(",")
+phaseThree, timeThree, confidenceThree = sys.argv[6].split(",")
 
-# print(phaseOne, timeOne, confidenceOne)
-
-
-"""
-REWRITE SPAT JSON or ASN.1 FILE
-"""
+"""ADD OPTIONAL ARGUMENTS FOUR AND FIVE"""
 
 open(filename, 'w').close()
 exampleJsonFile = 'test.json'
 
-for x in range(0, int(timeOne)):
+
+"""FIRST SET"""
+for x in range(0, int(timeOne)+1):
 	inp_data = Path(exampleJsonFile).read_text()
 
 	for r in (
@@ -79,29 +48,63 @@ for x in range(0, int(timeOne)):
 	):
 		inp_data = inp_data.replace(*r)
 
-	print(inp_data)
 	cls = v2x.MessageFrame
 	buf = cls.from_json(inp_data, verbose=False)
-	print("Converted to UPER HEX for",str(int(timeOne) - x), ":", binascii.hexlify(buf))
+
+	print("Converted to UPER HEX --for PHASE:", phaseOne, "--with CONFIDENCE:", confidenceOne, "--and TIME (das):", str(int(timeOne) - x), ":", binascii.hexlify(buf))
 	with open(filename, 'ab') as file:
 		file.write(binascii.hexlify(buf))
 		file.write(b'\n')
 
 	file.close()
 
-# inp_data = Path(filename).read_text().replace('"minEndTime":30,', '"minEndTime":' + timeOne + ',')
+
+"""SECOND SET"""
+for x in range(0, int(timeTwo)+1):
+	inp_data = Path(exampleJsonFile).read_text()
+
+	for r in (
+		('"minEndTime":x,', '"minEndTime":' + str(int(timeTwo) - x) + ','),
+	('"maxEndTime":x,', '"maxEndTime":' + str(int(timeTwo) - x) + ','),
+	('"likelyTime":x,', '"likelyTime":' + str(int(timeTwo) - x) + ','),
+	('"confidence":x,','"confidence":' + str(int(confidenceTwo)) + ','),
+	('"eventState":x,', '"eventState":' + '"' + phaseTwo + '",'),
+	('"signalGroup":x,','"signalGroup":' + signalGroupID + ','),
+	('"id":x','"id":' + intersectionID)
+	):
+		inp_data = inp_data.replace(*r)
+
+	cls = v2x.MessageFrame
+	buf = cls.from_json(inp_data, verbose=False)
+	print("Converted to UPER HEX --for PHASE:", phaseTwo, "--with CONFIDENCE:", confidenceTwo, "--and TIME (das):", str(int(timeTwo) - x), ":", binascii.hexlify(buf))
+	with open(filename, 'ab') as file:
+		file.write(binascii.hexlify(buf))
+		file.write(b'\n')
+
+	file.close()
 
 
-# cls = v2x.MessageFrame
-# buf = cls.from_json(inp_data, verbose=False)
+"""THIRD SET"""
 
-# print("Converted to UPER HEX: ", binascii.hexlify(buf))
-# print("\nwriting to file...")
+for x in range(0, int(timeThree)+1):
+	inp_data = Path(exampleJsonFile).read_text()
 
+	for r in (
+		('"minEndTime":x,', '"minEndTime":' + str(int(timeThree) - x) + ','),
+	('"maxEndTime":x,', '"maxEndTime":' + str(int(timeThree) - x) + ','),
+	('"likelyTime":x,', '"likelyTime":' + str(int(timeThree) - x) + ','),
+	('"confidence":x,','"confidence":' + str(int(confidenceThree)) + ','),
+	('"eventState":x,', '"eventState":' + '"' + phaseThree + '",'),
+	('"signalGroup":x,','"signalGroup":' + signalGroupID + ','),
+	('"id":x','"id":' + intersectionID)
+	):
+		inp_data = inp_data.replace(*r)
 
-"""Writing TO FILE"""
+	cls = v2x.MessageFrame
+	buf = cls.from_json(inp_data, verbose=False)
+	print("Converted to UPER HEX --for PHASE:", phaseThree, "--with CONFIDENCE:", confidenceThree, "--and TIME (das):", str(int(timeThree) - x), ":", binascii.hexlify(buf))
+	with open(filename, 'ab') as file:
+		file.write(binascii.hexlify(buf))
+		file.write(b'\n')
 
-# file.close()
-
-
-
+	file.close()

@@ -322,7 +322,7 @@ class Ui_UIWindowSPaTGenerator(object):
         self.label_4.setAlignment(QtCore.Qt.AlignCenter)
         self.label_4.setObjectName("label_4")
         self.statusInfoChange = QtWidgets.QLabel(self.frame)
-        self.statusInfoChange.setGeometry(QtCore.QRect(40, 20, 100, 30))
+        self.statusInfoChange.setGeometry(QtCore.QRect(0, 20, 180, 30))
         self.statusInfoChange.setAlignment(QtCore.Qt.AlignCenter)
         self.statusInfoChange.setObjectName("statusInfoChange")
         self.frame_2 = QtWidgets.QFrame(self.centralwidget)
@@ -384,16 +384,17 @@ class Ui_UIWindowSPaTGenerator(object):
         self.clearFieldsButton.clicked.connect(self.filenameInput.clear)
         self.clearFieldsButton.clicked.connect(self.signalGroupIDInput.clear)
         self.clearFieldsButton.clicked.connect(self.intersectionIDInput.clear)
-        self.phaseItem1.activated.connect(self.onClicked)
-        self.phaseItem2.activated.connect(self.onClicked)
-        self.phaseItem3.activated.connect(self.onClicked)
         self.clearFieldsButton.clicked.connect(lambda: self.phaseInfoChange.setText("(Select a Phase!)"))
-        self.createSPaTButton.clicked.connect(self.statusInfoChange.update)
+        self.clearFieldsButton.clicked.connect(lambda: self.statusInfoChange.setText("..."))
+        self.phaseItem1.activated.connect(self.setDesc)
+        self.phaseItem2.activated.connect(self.setDesc)
+        self.phaseItem3.activated.connect(self.setDesc)
         self.selectSPaTsButton.clicked.connect(self.browseFiles)
         self.transmitSPaTsButton.clicked.connect(self.runTransmitScript)
+        self.createSPaTButton.clicked.connect(self.runCreateScript)
         QtCore.QMetaObject.connectSlotsByName(UIWindowSPaTGenerator)
 
-    def onClicked(self, item):
+    def setDesc(self, item):
         if(item == 0):
             self.phaseInfoChange.setText("-- This state is used for\nunknown or error")
 
@@ -431,8 +432,19 @@ class Ui_UIWindowSPaTGenerator(object):
     def stopTransmitScript(self, p):
         p.kill()
         self.label_6.setText("Transmission was STOPPED")
+        os.system("clear")
         self.transmitSPaTsButton.show()
 
+    def runCreateScript(self):
+        tupleInput1 = self.phaseItem1.currentText().rstrip("() 0123456789") + ',' + str(int(self.lineEdit_6.text())*10) + ',' + str(self.confidenceItem1.currentIndex())
+        tupleInput2 = self.phaseItem2.currentText().rstrip("() 0123456789") + ',' + str(int(self.lineEdit_7.text())*10) + ',' + str(self.confidenceItem2.currentIndex())
+        tupleInput3 = self.phaseItem3.currentText().rstrip("() 0123456789") + ',' + str(int(self.lineEdit_8.text())*10) + ',' + str(self.confidenceItem3.currentIndex())
+
+        p = subprocess.Popen(['python3', 'createSPAT.py', self.intersectionIDInput.text(),
+        self.signalGroupIDInput.text(), self.filenameInput.text(), tupleInput1, tupleInput2, tupleInput3])
+
+        self.statusInfoChange.setText("SPaTs stored in: %s" %(self.filenameInput.text()))
+        
 
     def runTransmitScript(self):
         filename = self.label_6.text()
@@ -447,8 +459,6 @@ class Ui_UIWindowSPaTGenerator(object):
             p = subprocess.Popen(['python3', 'transmitSPAT.py', self.label_6.text().replace("Selected File: ","") , '/home/duser/aadiCreateSPaT/MAP.txt', ipPort])
             
             self.transmitSPaTsButton.hide()
-
-
 
             # while p.returncode != 0:
             #     self.label_6.setText("Transmitting SPaTs from %s" %(filename))
