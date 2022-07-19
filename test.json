@@ -1,0 +1,34 @@
+{
+    "messageId":19,
+    "value":{
+       "intersections":[
+          {
+             "id":{
+                "id":x
+             },
+             "revision":1,
+             "status":"0000",
+             "moy":275585,
+             "states":[
+                {
+                   "signalGroup":x,
+                   "state-time-speed":[
+                      {
+                         "eventState":x,
+                         "timing":{
+                            "startTime":0,
+                            "minEndTime":x,
+                            "maxEndTime":x,
+                            "likelyTime":x,
+                            "confidence":x,
+                            "nextTime":0
+                         }
+                      }
+                   ]
+                }
+             ]
+          }
+       ]
+    }
+ }
+ 

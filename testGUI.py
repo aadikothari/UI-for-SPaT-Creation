@@ -8,6 +8,7 @@
 
 import os
 import subprocess
+from subprocess import run
 import signal
 import time
 
@@ -435,16 +436,31 @@ class Ui_UIWindowSPaTGenerator(object):
 
     def runTransmitScript(self):
         filename = self.label_6.text()
-        if filename == "Status" or filename == "SELECT A FILE !!" or filename == "Transmission was STOPPED":
+        if filename == "Status" or filename == "SELECT A FILE !!" or filename == "Transmission was STOPPED" or filename == "Selected File: ":
             self.label_6.setText("SELECT A FILE !!")
 
         else:
             filename = self.label_6.text().replace("Selected File: ","")
             ipPort = self.rsuIPInput.text() + ':' + self.rsuPortInput.text()
             ###### CHANGE THE MAP FILE OPTION
+            #subprocess.call/run
             p = subprocess.Popen(['python3', 'transmitSPAT.py', self.label_6.text().replace("Selected File: ","") , '/home/duser/aadiCreateSPaT/MAP.txt', ipPort])
-            self.label_6.setText("Transmitting SPaTs from %s" %(filename))
+            
             self.transmitSPaTsButton.hide()
+
+
+
+            # while p.returncode != 0:
+            #     self.label_6.setText("Transmitting SPaTs from %s" %(filename))
+            #     #print(outs)
+            #     # p.wait()
+            #     #print(p.returncode)
+            #     if(p.returncode == 0):
+            #         self.transmitSPaTsButton.show()
+            #         exit()
+
+            # if(output == "\nClearing the terminal..."):
+            #     self.transmitSPaTsButton.show()
             
             self.stopTransmitButton.clicked.connect(lambda: self.stopTransmitScript(p))
 

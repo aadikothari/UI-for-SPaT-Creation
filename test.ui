@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>853</width>
-    <height>668</height>
+    <height>696</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -175,7 +175,7 @@
    <widget class="QLabel" name="label_5">
     <property name="geometry">
      <rect>
-      <x>470</x>
+      <x>440</x>
       <y>30</y>
       <width>101</width>
       <height>20</height>
@@ -1107,10 +1107,10 @@
    <widget class="QPushButton" name="transmitSPaTsButton">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>530</y>
-      <width>380</width>
-      <height>25</height>
+      <x>40</x>
+      <y>570</y>
+      <width>381</width>
+      <height>30</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -1162,7 +1162,7 @@
    <widget class="QLabel" name="label_8">
     <property name="geometry">
      <rect>
-      <x>470</x>
+      <x>440</x>
       <y>480</y>
       <width>101</width>
       <height>20</height>
@@ -1264,9 +1264,9 @@
    <widget class="QFrame" name="frame_3">
     <property name="geometry">
      <rect>
-      <x>170</x>
+      <x>440</x>
       <y>570</y>
-      <width>521</width>
+      <width>381</width>
       <height>31</height>
      </rect>
     </property>
@@ -1279,9 +1279,9 @@
     <widget class="QLabel" name="label_6">
      <property name="geometry">
       <rect>
-       <x>6</x>
+       <x>0</x>
        <y>0</y>
-       <width>511</width>
+       <width>381</width>
        <height>30</height>
       </rect>
      </property>
@@ -1292,6 +1292,22 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
+   </widget>
+   <widget class="QPushButton" name="selectSPaTsButton_2">
+    <property name="geometry">
+     <rect>
+      <x>440</x>
+      <y>530</y>
+      <width>380</width>
+      <height>25</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">font: 11pt &quot;Ubuntu&quot;;</string>
+    </property>
+    <property name="text">
+     <string>Select MAPs</string>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">

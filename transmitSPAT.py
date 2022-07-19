@@ -4,12 +4,13 @@ import socket
 import argparse
 import os
 from pathlib import Path
+import signal
 
 try:
 	filenameSPAT = sys.argv[1]
 	filenameMAP = sys.argv[2]
 	ip, port = sys.argv[3].split(":")
-	#print(ip, ':' ,port)
+
 except:
 	print("\nIncorrect arguments, see -h for help\n")
 
@@ -32,19 +33,22 @@ except:
 lines = file.readlines()
 
 for l in lines:
-	#time.sleep(1)
-	sendWordSPAT = Path('baseSPAT.txt').read_text() + "Payload=" + l
-	sock.sendto(sendWordSPAT.encode(), (ip, int(port)))
-
+	time.sleep(0.5)
 	sendWordMAP = Path('baseMAP.txt').read_text() + "Payload=" + Path('MAP.txt').read_text()
 	sock.sendto(sendWordMAP.encode(), (ip, int(port)))
+
+	sendWordSPAT = Path('baseSPAT.txt').read_text() + "Payload=" + l
+	sock.sendto(sendWordSPAT.encode(), (ip, int(port)))
 	
-	print("Sent:\n", sendWordMAP)
-	print("Sent:\n", sendWordSPAT)
+	# print("Sent:\n", sendWordMAP)
+	# print("Sent:\n", sendWordSPAT)
+	print("sending..")
 
 print("\nClearing the terminal...")
-time.sleep(1.5)
-os.system("clear")
+#time.sleep(1.5)
+# os.system("clear")
+# send some signal here maybe
+# signal.signal(signal.SIGTERM)
 sock.close()	
 file.close()
-sys.exit(0)
+# sys.exit(0)
