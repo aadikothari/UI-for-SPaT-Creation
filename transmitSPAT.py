@@ -34,10 +34,10 @@ lines = file.readlines()
 
 for l in lines:
 	time.sleep(0.5)
-	sendWordMAP = Path('baseMAP.txt').read_text() + "Payload=" + Path('MAP.txt').read_text()
+	sendWordMAP = Path('base/baseMAP.txt').read_text() + "Payload=" + Path('MAP.txt').read_text()
 	sock.sendto(sendWordMAP.encode(), (ip, int(port)))
 
-	sendWordSPAT = Path('baseSPAT.txt').read_text() + "Payload=" + l
+	sendWordSPAT = Path('base/baseSPAT.txt').read_text() + "Payload=" + l
 	sock.sendto(sendWordSPAT.encode(), (ip, int(port)))
 	
 	# print("Sent:\n", sendWordMAP)
