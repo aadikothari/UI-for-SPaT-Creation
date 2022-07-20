@@ -6,7 +6,18 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.QtWidgets import QFileDialog
 
 class Ui_UIWindowSPaTGenerator(object):
+    """Class that defines the functionality of the UI
+
+    Args:
+        object (QMainWindow): MainWindow Object that is created from the class
+    """
+
     def setupUi(self, UIWindowSPaTGenerator):
+        """Function that sets up the elements in the UI and gives them their attirbutes
+
+        Args:
+            UIWindowSPaTGenerator (QMainWindow): MainWindow Object that displays the UI and its elements
+        """
         UIWindowSPaTGenerator.setObjectName("UIWindowSPaTGenerator")
         UIWindowSPaTGenerator.resize(853, 668)
         UIWindowSPaTGenerator.setInputMethodHints(QtCore.Qt.ImhNone)
@@ -450,6 +461,12 @@ class Ui_UIWindowSPaTGenerator(object):
         QtCore.QMetaObject.connectSlotsByName(UIWindowSPaTGenerator)
 
     def setDesc(self, item):
+        """Sets the phaseInfoChange label to display the value selected by the user in phaseItem1
+
+        Args:
+            item (int): index of the element in phaseItem1
+        """
+
         if(item == 0):
             self.phaseInfoChange.setText("-- This state is used for\nunknown or error")
 
@@ -480,7 +497,14 @@ class Ui_UIWindowSPaTGenerator(object):
         elif(item == 9):
             self.phaseInfoChange.setText("-- Often called ‘flashing yellow’ in US\n-- Often used for extended periods of time\n\n-- Driver Action: \n-- Proceed with caution, \n-- Conflicting traffic may be present\n-- in the intersection conflict area")
 
+
     def setDescOptional(self, item):
+        """Sets the phaseInfoChange label to display the value selected by the user in phaseItem2/3/4/5
+
+        Args:
+            item (int): (index+1) of the element in phaseItem2/3/4/5, as the first index is "select option"
+        """
+
         if(item == 0):
             self.phaseInfoChange.setText("(Select a Phase!)")
 
@@ -516,15 +540,25 @@ class Ui_UIWindowSPaTGenerator(object):
     
 
     def browseFiles(self):
+        """Opens the File Browser (nautilus) and sets the name of the label as 'filename' selected by user
+        """
+
         filename = QFileDialog.getOpenFileName()
         self.label_6.setText("Selected File: %s" %(filename[0]))
 
     def stopTransmitScript(self, p):
+        """Stops the transmission by killing the subprocess
+
+        Args:
+            p (subprocess): Python subprocess that runs on another thread to transmit SPATs
+        """
+
         p.kill()
         self.label_6.setText("Transmission was STOPPED")
         os.system("clear")
         self.transmitSPaTsButton.show()
 
+    #START DOCUMENTING FROM HERE
     def runCreateScript(self):
         # Phase 1 ONLY
         if self.intersectionIDInput.text() == "" or self.signalGroupIDInput.text() == "":
