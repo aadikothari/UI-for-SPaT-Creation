@@ -4,11 +4,10 @@ import socket
 import argparse
 import os
 from pathlib import Path
-import signal
 
 try:
 	filenameSPAT = sys.argv[1]
-	filenameMAP = sys.argv[2]
+	valMAP = sys.argv[2]
 	ip, port = sys.argv[3].split(":")
 
 except:
@@ -20,7 +19,7 @@ parser = argparse.ArgumentParser(description='''Python script that reads the UPE
 	)
 
 parser.add_argument('SPAT.txt', help='text file containing the encoded UPER hex values for SPaT Data')
-parser.add_argument('MAP.txt', help='text file containing the encoded UPER hex values for MAP Data')
+parser.add_argument('MAP', help='encoded UPER hex value for MAP Data')
 parser.add_argument('IP:Port', help='IP and port for the RSU separated by a colon')
 
 args = parser.parse_args()
@@ -34,20 +33,17 @@ lines = file.readlines()
 
 for l in lines:
 	time.sleep(0.5)
-	sendWordMAP = Path('base/baseMAP.txt').read_text() + "Payload=" + Path('MAP.txt').read_text()
+	sendWordMAP = Path('base/baseMAP.txt').read_text() + "Payload=" + valMAP
 	sock.sendto(sendWordMAP.encode(), (ip, int(port)))
 
 	sendWordSPAT = Path('base/baseSPAT.txt').read_text() + "Payload=" + l
 	sock.sendto(sendWordSPAT.encode(), (ip, int(port)))
 	
-	# print("Sent:\n", sendWordMAP)
+	print("Sent:\n", sendWordMAP)
 	print("Sent:\n", sendWordSPAT)
 
 print("\nClearing the terminal...")
 time.sleep(1.5)
 os.system("clear")
-# send some signal here maybe
-# signal.signal(signal.SIGTERM)
 sock.close()	
 file.close()
-# sys.exit(0)

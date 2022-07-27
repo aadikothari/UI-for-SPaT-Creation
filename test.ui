@@ -1107,10 +1107,10 @@
    <widget class="QPushButton" name="transmitSPaTsButton">
     <property name="geometry">
      <rect>
-      <x>40</x>
-      <y>570</y>
+      <x>440</x>
+      <y>530</y>
       <width>381</width>
-      <height>30</height>
+      <height>21</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -1264,10 +1264,10 @@
    <widget class="QFrame" name="frame_3">
     <property name="geometry">
      <rect>
-      <x>440</x>
+      <x>40</x>
       <y>570</y>
       <width>381</width>
-      <height>31</height>
+      <height>61</height>
      </rect>
     </property>
     <property name="frameShape">
@@ -1282,7 +1282,7 @@
        <x>0</x>
        <y>0</y>
        <width>381</width>
-       <height>30</height>
+       <height>61</height>
       </rect>
      </property>
      <property name="text">
@@ -1293,20 +1293,27 @@
      </property>
     </widget>
    </widget>
-   <widget class="QPushButton" name="selectSPaTsButton_2">
+   <widget class="QLineEdit" name="lineEdit">
     <property name="geometry">
      <rect>
       <x>440</x>
-      <y>530</y>
-      <width>380</width>
+      <y>610</y>
+      <width>381</width>
       <height>25</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">font: 11pt &quot;Ubuntu&quot;;</string>
+   </widget>
+   <widget class="QLabel" name="label_7">
+    <property name="geometry">
+     <rect>
+      <x>570</x>
+      <y>580</y>
+      <width>101</width>
+      <height>30</height>
+     </rect>
     </property>
     <property name="text">
-     <string>Select MAPs</string>
+     <string>MAP Payload:</string>
     </property>
    </widget>
   </widget>

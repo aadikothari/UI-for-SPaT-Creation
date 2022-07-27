@@ -19,7 +19,7 @@ class Ui_UIWindowSPaTGenerator(object):
             UIWindowSPaTGenerator (QMainWindow): MainWindow Object that displays the UI and its elements
         """
         UIWindowSPaTGenerator.setObjectName("UIWindowSPaTGenerator")
-        UIWindowSPaTGenerator.resize(853, 668)
+        UIWindowSPaTGenerator.resize(853, 685)
         UIWindowSPaTGenerator.setInputMethodHints(QtCore.Qt.ImhNone)
 
         self.intInputValidation = QtGui.QIntValidator()
@@ -94,6 +94,12 @@ class Ui_UIWindowSPaTGenerator(object):
         self.label_5.setFont(font)
         self.label_5.setStyleSheet("font: 11pt \"Ubuntu\";")
         self.label_5.setObjectName("label_5")
+
+        self.label = QtWidgets.QLabel(self.centralwidget)
+        self.label.setGeometry(QtCore.QRect(590, 230, 230, 31))
+        self.label.setStyleSheet("font: 11pt \"Ubuntu\";")
+        self.label.setAlignment(QtCore.Qt.AlignCenter)
+        self.label.setObjectName("label")
 
         self.selectSPaTsButton = QtWidgets.QPushButton(self.centralwidget)
         self.selectSPaTsButton.setGeometry(QtCore.QRect(40, 530, 380, 25))
@@ -386,15 +392,22 @@ class Ui_UIWindowSPaTGenerator(object):
         self.frame_2.setObjectName("frame_2")
 
         self.frame_3 = QtWidgets.QFrame(self.centralwidget)
-        self.frame_3.setGeometry(QtCore.QRect(170, 570, 521, 31))
+        self.frame_3.setGeometry(QtCore.QRect(40, 570, 381, 61))
         self.frame_3.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.frame_3.setFrameShadow(QtWidgets.QFrame.Raised)
         self.frame_3.setObjectName("frame_3")
 
         self.label_6 = QtWidgets.QLabel(self.frame_3)
-        self.label_6.setGeometry(QtCore.QRect(6, 0, 511, 30))
+        self.label_6.setGeometry(QtCore.QRect(0, 0, 381, 61))
         self.label_6.setAlignment(QtCore.Qt.AlignCenter)
         self.label_6.setObjectName("label_6")
+
+        self.lineEdit = QtWidgets.QLineEdit(self.centralwidget)
+        self.lineEdit.setGeometry(QtCore.QRect(440, 606, 381, 25))
+        self.lineEdit.setObjectName("lineEdit")
+        self.label_7 = QtWidgets.QLabel(self.centralwidget)
+        self.label_7.setGeometry(QtCore.QRect(560, 580, 200, 30))
+        self.label_7.setObjectName("label_7")
         
         UIWindowSPaTGenerator.setCentralWidget(self.centralwidget)
 
@@ -452,8 +465,6 @@ class Ui_UIWindowSPaTGenerator(object):
         self.phaseItem3.activated.connect(self.setDescOptional)
         self.phaseItem4.activated.connect(self.setDescOptional)
         self.phaseItem5.activated.connect(self.setDescOptional)
-        # self.phaseItem2.activated.connect(self.setDesc)
-        # self.phaseItem3.activated.connect(self.setDesc)
         self.selectSPaTsButton.clicked.connect(self.browseFiles)
         self.transmitSPaTsButton.clicked.connect(self.runTransmitScript)
         self.createSPaTButton.clicked.connect(self.runCreateScript)
@@ -630,18 +641,6 @@ class Ui_UIWindowSPaTGenerator(object):
                     p = subprocess.Popen(['python3', 'createSPAT.py', self.intersectionIDInput.text(),
                     self.signalGroupIDInput.text(), self.filenameInput.text(), tupleInput1, tupleInput2, tupleInput3, tupleInput4, tupleInput5])
                     self.statusInfoChange.setText("SPaTs stored in: %s" %(self.filenameInput.text()))
-
-
-        
-
-        # tupleInput1 = self.phaseItem1.currentText().rstrip("() 0123456789") + ',' + str(int(self.lineEdit_6.text())*10) + ',' + str(self.confidenceItem1.currentIndex())
-        # tupleInput2 = self.phaseItem2.currentText().rstrip("() 0123456789") + ',' + str(int(self.lineEdit_7.text())*10) + ',' + str(self.confidenceItem2.currentIndex())
-        # tupleInput3 = self.phaseItem3.currentText().rstrip("() 0123456789") + ',' + str(int(self.lineEdit_8.text())*10) + ',' + str(self.confidenceItem3.currentIndex())
-
-        # p = subprocess.Popen(['python3', 'createSPAT.py', self.intersectionIDInput.text(),
-        # self.signalGroupIDInput.text(), self.filenameInput.text(), tupleInput1, tupleInput2, tupleInput3])
-
-        # self.statusInfoChange.setText("SPaTs stored in: %s" %(self.filenameInput.text()))
         
 
     def runTransmitScript(self):
@@ -649,30 +648,18 @@ class Ui_UIWindowSPaTGenerator(object):
         if self.rsuIPInput.text() == "":
             self.label_6.setText("Enter IP ADDRESS!")
 
-        elif filename == "Status" or filename == "SELECT A FILE!" or filename == "Transmission was STOPPED" or filename == "Selected File: " or filename == "Enter IP ADDRESS!":
+        elif self.lineEdit.text() == "":
+            self.label_6.setText("Enter MAP Payload!")
+
+        elif filename == "Status" or filename == "SELECT A FILE!" or filename == "Transmission was STOPPED" or filename == "Selected File: " or filename == "Enter IP ADDRESS!" or filename == "Enter MAP Payload!":
             self.label_6.setText("SELECT A FILE!")
 
         else:
             filename = self.label_6.text().replace("Selected File: ","")
             ipPort = self.rsuIPInput.text() + ':' + self.rsuPortInput.text()
-            ###### CHANGE THE MAP FILE OPTION
-            #subprocess.call/run
-            p = subprocess.Popen(['python3', 'transmitSPAT.py', self.label_6.text().replace("Selected File: ","") , '/home/duser/aadiCreateSPaT/MAP.txt', ipPort])
+            p = subprocess.Popen(['python3', 'transmitSPAT.py', self.label_6.text().replace("Selected File: ",""), self.lineEdit.text(), ipPort])
             
-            self.transmitSPaTsButton.hide()
-
-            # while p.returncode != 0:
-            #     self.label_6.setText("Transmitting SPaTs from %s" %(filename))
-            #     #print(outs)
-            #     # p.wait()
-            #     #print(p.returncode)
-            #     if(p.returncode == 0):
-            #         self.transmitSPaTsButton.show()
-            #         exit()
-
-            # if(output == "\nClearing the terminal..."):
-            #     self.transmitSPaTsButton.show()
-            
+            self.transmitSPaTsButton.hide()            
             self.stopTransmitButton.clicked.connect(lambda: self.stopTransmitScript(p))
 
     def retranslateUi(self, UIWindowSPaTGenerator):
@@ -844,6 +831,7 @@ class Ui_UIWindowSPaTGenerator(object):
         self.label_8.setText(_translate("UIWindowSPaTGenerator", "RSU Port:"))
         self.label_4.setText(_translate("UIWindowSPaTGenerator", "Status:"))
         self.label_6.setText(_translate("UIWindowSPaTGenerator", "Status"))
+        self.label_7.setText(_translate("UIWindowSPaTGenerator", "MAP UPER encoded hex:"))
         self.statusInfoChange.setText(_translate("UIWindowSPaTGenerator", "..."))
         self.menuUI_for_SPaT_Creation.setTitle(_translate("UIWindowSPaTGenerator", " "))
 
