@@ -551,14 +551,16 @@ class Ui_UIWindowSPaTGenerator(object):
     
 
     def browseFiles(self):
-        """Opens the File Browser (nautilus) and sets the name of the label as 'filename' selected by user
+        """
+        Opens the File Browser (nautilus) and sets the name of the label as 'filename' selected by user
         """
 
         filename = QFileDialog.getOpenFileName()
         self.label_6.setText("Selected File: %s" %(filename[0]))
 
     def stopTransmitScript(self, p):
-        """Stops the transmission by killing the subprocess
+        """
+        Stops the transmission by killing the subprocess
 
         Args:
             p (subprocess): Python subprocess that runs on another thread to transmit SPATs
@@ -571,24 +573,32 @@ class Ui_UIWindowSPaTGenerator(object):
 
     #START DOCUMENTING FROM HERE
     def runCreateScript(self):
-        # Phase 1 ONLY
+        """
+        Runs the subprocess for creation of SPaTs
+
+        """
+        
+        # If the ID inputs are missing
         if self.intersectionIDInput.text() == "" or self.signalGroupIDInput.text() == "":
             self.statusInfoChange.setText("Missing ID Input!")
 
+        # If the Time inputs are missing
         elif self.lineEdit_6.text() == "":
             self.statusInfoChange.setText("Missing TIME!")
 
+        # If the filename input is missing
         elif self.filenameInput.text() == "":
             self.statusInfoChange.setText("Missing FILENAME!")
 
         else:
+            # For Combination 1 only
             if self.phaseItem2.currentText() == "select option" or self.confidenceItem2.currentText() == "select option":
                 tupleInput1 = self.phaseItem1.currentText().rstrip("() 0123456789") + ',' + str(int(self.lineEdit_6.text())*10) + ',' + str(self.confidenceItem1.currentIndex())    
                 p = subprocess.Popen(['python3', 'createSPAT.py', self.intersectionIDInput.text(),
                 self.signalGroupIDInput.text(), self.filenameInput.text(), tupleInput1])
                 self.statusInfoChange.setText("SPaTs stored in: %s" %(self.filenameInput.text()))
 
-            # Phase 1, 2
+            # Combination of Phase 1 and 2
             elif self.phaseItem3.currentText() == "select option" or self.confidenceItem3.currentText() == "select option":
                 if self.lineEdit_7.text() == "":
                     self.statusInfoChange.setText("Enter Time Field!")
@@ -600,7 +610,7 @@ class Ui_UIWindowSPaTGenerator(object):
                     self.signalGroupIDInput.text(), self.filenameInput.text(), tupleInput1, tupleInput2])
                     self.statusInfoChange.setText("SPaTs stored in: %s" %(self.filenameInput.text()))
 
-            # Phase 1, 2, 3
+            # Combination of Phase 1, 2, and 3
             elif self.phaseItem4.currentText() == "select option" or self.confidenceItem4.currentText() == "select option":
                 if self.lineEdit_8.text() == "":
                     self.statusInfoChange.setText("Enter Time Field!")
@@ -613,7 +623,7 @@ class Ui_UIWindowSPaTGenerator(object):
                     self.signalGroupIDInput.text(), self.filenameInput.text(), tupleInput1, tupleInput2, tupleInput3])
                     self.statusInfoChange.setText("SPaTs stored in: %s" %(self.filenameInput.text()))
 
-            # Phase 1, 2, 3, 4
+            # Combination of Phase 1, 2, 3, and 4
             elif self.phaseItem5.currentText() == "select option" or self.confidenceItem5.currentText() == "select option":
                 if self.lineEdit_9.text() == "":
                     self.statusInfoChange.setText("Enter Time Field!")
@@ -627,7 +637,7 @@ class Ui_UIWindowSPaTGenerator(object):
                     self.signalGroupIDInput.text(), self.filenameInput.text(), tupleInput1, tupleInput2, tupleInput3, tupleInput4])
                     self.statusInfoChange.setText("SPaTs stored in: %s" %(self.filenameInput.text()))
 
-            # Phase 1, 2, 3, 4, 5
+            # Combination of Phase 1, 2, 3, 4, and 5
             else:
                 if self.lineEdit_10.text() == "":
                     self.statusInfoChange.setText("Enter Time Field!")
@@ -642,8 +652,10 @@ class Ui_UIWindowSPaTGenerator(object):
                     self.signalGroupIDInput.text(), self.filenameInput.text(), tupleInput1, tupleInput2, tupleInput3, tupleInput4, tupleInput5])
                     self.statusInfoChange.setText("SPaTs stored in: %s" %(self.filenameInput.text()))
         
-
     def runTransmitScript(self):
+        """
+        Runs the transmitSPAT.py script as a subprocess
+        """
         filename = self.label_6.text()
         if self.rsuIPInput.text() == "":
             self.label_6.setText("Enter IP ADDRESS!")
@@ -663,6 +675,11 @@ class Ui_UIWindowSPaTGenerator(object):
             self.stopTransmitButton.clicked.connect(lambda: self.stopTransmitScript(p))
 
     def retranslateUi(self, UIWindowSPaTGenerator):
+        """Auto generated PyQt5 function that sets the text and titles of widgets
+
+        Args:
+            UIWindowSPaTGenerator (QMainWindow): MainWindow object
+        """
         _translate = QtCore.QCoreApplication.translate
         UIWindowSPaTGenerator.setWindowTitle(_translate("UIWindowSPaTGenerator", "UI Window SPaT Generator"))
         self.TimeLabel.setText(_translate("UIWindowSPaTGenerator", "Time (in seconds):"))
@@ -835,7 +852,7 @@ class Ui_UIWindowSPaTGenerator(object):
         self.statusInfoChange.setText(_translate("UIWindowSPaTGenerator", "..."))
         self.menuUI_for_SPaT_Creation.setTitle(_translate("UIWindowSPaTGenerator", " "))
 
-# Main Method
+
 if __name__ == "__main__":
     import sys
     app = QtWidgets.QApplication(sys.argv)

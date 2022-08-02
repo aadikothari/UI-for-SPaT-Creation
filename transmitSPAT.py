@@ -31,17 +31,24 @@ except:
 	print("CANNOT OPEN FILE FOR READING")
 lines = file.readlines()
 
+mapInterval = 0
+
 for l in lines:
-	time.sleep(0.5)
-	sendWordMAP = Path('base/baseMAP.txt').read_text() + "Payload=" + valMAP
-	sock.sendto(sendWordMAP.encode(), (ip, int(port)))
+	time.sleep(1)
+	mapInterval = mapInterval + 1
 
 	sendWordSPAT = Path('base/baseSPAT.txt').read_text() + "Payload=" + l
 	sock.sendto(sendWordSPAT.encode(), (ip, int(port)))
 	
-	print("Sent:\n", sendWordMAP)
+	# Send a MAP for every 10 SPaTs
+	if mapInterval % 10 == 0:
+		sendWordMAP = Path('base/baseMAP.txt').read_text() + "Payload=" + valMAP
+		sock.sendto(sendWordMAP.encode(), (ip, int(port)))
+		print("Sent:\n", sendWordMAP)
+
 	print("Sent:\n", sendWordSPAT)
 
+# End of process clears terminal and closes files and socket.
 print("\nClearing the terminal...")
 time.sleep(1.5)
 os.system("clear")
